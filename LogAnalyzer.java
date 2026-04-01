@@ -34,6 +34,7 @@ public class LogAnalyzer
         return total;
     }
 
+
     public int busiestHour(){
         int busiest = 0;
         for(int i =1; i< hourCounts.length; i++){
