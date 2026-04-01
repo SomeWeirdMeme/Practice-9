@@ -18,7 +18,7 @@ public class LogAnalyzer
      */
     public LogAnalyzer(String name)
     { 
-        
+
         // Create the array object to hold the hourly
         // access counts.
         hourCounts = new int[HOURS_PER_DAY];
@@ -33,9 +33,17 @@ public class LogAnalyzer
         }
         return total;
     }
-    
-    
-    
+
+    public int busiestHour(){
+        int busiest = 0;
+        for(int i =1; i< hourCounts.length; i++){
+            if(hourCounts[i] > hourCounts[busiest]){
+                busiest = i;
+            }
+        }
+        return busiest;
+    }
+
     /**
      * Analyze the hourly access data from the log file.
      */
