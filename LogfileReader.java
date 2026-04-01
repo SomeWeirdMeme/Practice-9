@@ -50,8 +50,8 @@ public class LogfileReader implements Iterator<LogEntry>
                 // Break up the line and add it to the list of entries.
                 String[] parts = logline.split(" ");
                 int[] values = Arrays.stream(parts)
-                                     .mapToInt(Integer::parseInt)
-                                     .toArray();
+                    .mapToInt(Integer::parseInt)
+                    .toArray();
                 LogEntry entry = new LogEntry(values);
                 entries.add(entry);
             }
