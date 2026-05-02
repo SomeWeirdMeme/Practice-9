@@ -16,13 +16,13 @@ public class LogAnalyzer
     /**
      * Create an object to analyze hourly web accesses.
      */
-    public LogAnalyzer()
+    public LogAnalyzer(String filename)
     { 
         // Create the array object to hold the hourly
         // access counts.
-        hourCounts = new int[HOURS_PER_DAY];
+        reader = new LogfileReader(filename);
         // Create the reader to obtain the data.
-        reader = new LogfileReader();
+        hourCounts = new int[24];
     }
 
     /**
@@ -37,6 +37,60 @@ public class LogAnalyzer
         }
     }
 
+    public int quietestHour() {
+        int min = hourCounts[0];
+        int quietest = 0;
+
+        for(int hour = 1; hour < hourCounts.length; hour++) {
+            if(hourCounts[hour] < min) {
+                min = hourCounts[hour];
+                quietest = hour;
+            }
+        }
+
+        return quietest;
+    }
+
+    public int busiestTwoHourPeriod() {
+        int max = hourCounts[0] + hourCounts[1];
+        int busiestHour = 0;
+
+        for(int hour = 1; hour < hourCounts.length - 1; hour++) {
+            int current = hourCounts[hour] + hourCounts[hour + 1];
+
+            if(current > max) {
+                max = current;
+                busiestHour = hour;
+            }
+        }
+
+        return busiestHour;
+    }
+
+    public int busiestHour() {
+        int max = hourCounts[0];
+        int busiest = 0;
+
+        for(int hour = 1; hour < hourCounts.length; hour++) {
+            if(hourCounts[hour] > max) {
+                max = hourCounts[hour];
+                busiest = hour;
+            }
+        }
+
+        return busiest;
+    }
+
+    public int numberOfAccesses() {
+        int total = 0;
+
+        for(int count : hourCounts) {
+            total += count;
+        }
+
+        return total;
+    }
+
     /**
      * Print the hourly counts.
      * These should have been set with a prior
@@ -44,12 +98,13 @@ public class LogAnalyzer
      */
     public void printHourlyCounts()
     {
-        System.out.println("Hr: Count");
-        for(int hour = 0; hour < hourCounts.length; hour++) {
+        int hour = 0;
+        while(hour < hourCounts.length) {
             System.out.println(hour + ": " + hourCounts[hour]);
+            hour++;
         }
     }
-    
+
     /**
      * Print the lines of data read by the LogfileReader
      */
